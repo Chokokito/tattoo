@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thiago Alpes - Tattoo Artist</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Custom Tailwind Config -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              "pp-formula": ["Inter", "system-ui", "sans-serif"],
+              poppins: ["Poppins", "system-ui", "sans-serif"],
+            },
+            colors: {
+              cream: "#F5F2F2",
+              gold: "#867E00",
+              "off-white": "#DEDFDB",
+            },
+            borderWidth: {
+              3: "3px",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Custom CSS for additional styling -->
+    <style>
+        *{
+            scroll-behavior: smooth;
+        }
+
+      .border-3 {
+        border-width: 3px;
+      }
+
+      @media (max-width: 1000px) {
+        .leading-066 {
+          line-height: 0.8 !important;
+        }
+      }
+
+      .leading-066 {
+        line-height: 0.3;
+      }
+      .leading-072 {
+        line-height: 0.72;
+      }
+      .leading-105 {
+        line-height: 1.05;
+      }
+      .leading-124 {
+        line-height: 1.24;
+      }
+      .leading-155 {
+        line-height: 1.55;
+      }
+      .tracking-002em {
+        letter-spacing: -0.02em;
+      }
+      .tracking-036px {
+        letter-spacing: 0.36px;
+      }
+      .tracking-04px {
+        letter-spacing: 0.4px;
+      }
+      .tracking-06px {
+        letter-spacing: 0.6px;
+      }
+      .text-8xl-responsive {
+        font-size: clamp(4rem, 12vw, 25rem);
+      }
+
+      /* FAQ Accordion Styling */
+      .faq-item {
+        transition: all 0.3s ease;
+      }
+      .faq-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+      .faq-item.active .faq-content {
+        max-height: 200px;
+      }
+      .faq-item.active .chevron {
+        transform: rotate(90deg);
+      }
+      .chevron {
+        transition: transform 0.3s ease;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-white">
+    <!-- Navigation -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4 sm:p-6 lg:px-16"
+    >
+      <!-- Logo -->
+      <div
+        class="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gold bg-gold/10 flex items-center justify-center"
+      >
+        <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gold"></div>
+      </div>
+
+      <!-- Menu Button -->
+    <button id="menu-btn" class="text-white hover:text-gold transition-colors relative z-50">
+        <svg
+            width="28"
+            height="28"
+            class="sm:w-8 sm:h-8"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+        </svg>
+    </button>
+    <!-- Menu Label -->
+    <div id="menu-label" class="hidden fixed top-16 right-4 sm:right-8 w-64 h-64 bg-white shadow-lg rounded-lg flex flex-col items-center justify-center font-pp-formula text-black text-xl z-40 py-10">
+        <nav class="flex flex-col items-center space-y-4 w-full">
+            <a href="#hero" class="block w-full text-center text-lg font-pp-formula text-black uppercase tracking-wide leading-072 hover:text-gold transition-colors">HOME</a>
+            <a href="#about" class="block w-full text-center text-lg font-pp-formula text-black uppercase tracking-wide leading-072 hover:text-gold transition-colors">ABOUT</a>
+            <a href="#works" class="block w-full text-center text-lg font-pp-formula text-black uppercase tracking-wide leading-072 hover:text-gold transition-colors">WORK</a>
+            <a href="#faqs" class="block w-full text-center text-lg font-pp-formula text-black uppercase tracking-wide leading-072 hover:text-gold transition-colors">FAQS</a>
+            <a href="#works-gallery" class="block w-full text-center text-lg font-pp-formula text-black uppercase tracking-wide leading-072 hover:text-gold transition-colors">GALLERY</a>
+            <a href="#contact" class="block w-full text-center text-lg font-pp-formula text-black uppercase tracking-wide leading-072 hover:text-gold transition-colors">CONTACT</a>
+        </nav>
+    </div>
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const menuLabel = document.getElementById('menu-label');
+        let menuOpen = false;
+
+        menuBtn.addEventListener('click', (e) => {
+            menuLabel.classList.toggle('hidden');
+        });
+
+        // Optional: close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (menuOpen && !menuLabel.contains(e.target) && e.target !== menuBtn) {
+                menuOpen = false;
+                menuLabel.classList.add('hidden');
+            }
+        }, true);
+    </script>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+      class="relative min-h-screen flex items-center justify-center overflow-hidden" id="hero"
+    >
+      <!-- Background Image -->
+      <div
+        class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style="
+          background-image: url('https://api.builder.io/api/v1/image/assets/TEMP/855536d911961239b56ca86af3fbfa6678373697?width=3946');
+        "
+      >
+        <div class="absolute inset-0 bg-black/20"></div>
+      </div>
+
+    <!-- Main Title -->
+    <div class="absolute bottom-0 left-0 w-full z-10 text-center px-4 pb-4 sm:pb-12">
+      <h1
+        class="w-full md:text-[15em] font-pp-formula font-bold text-cream leading-066 tracking-002em select-none text-[5em] md:text-nowrap 
+        "
+      >
+        THIAGO ALPES
+      </h1>
+    </div>
+      
+    </section>
+
+    <!-- About Section -->
+    <section class="relative bg-white py-12 sm:py-20 lg:py-32" id="about">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-16">
+        <div
+          class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center"
+        >
+          <!-- Image -->
+          <div class="order-2 lg:order-1">
+            <img
+              src="https://api.builder.io/api/v1/image/assets/TEMP/cd45e28e80490b6832f964736013c91e62912dfb?width=1860"
+              alt="Thiago Alpes working"
+              class="w-full h-[400px] lg:h-[658px] object-cover"
+            />
+          </div>
+
+          <!-- Content -->
+          <div class="order-1 lg:order-2 bg-white p-6 sm:p-8 lg:p-16">
+            <h2
+              class="text-3xl sm:text-4xl lg:text-5xl font-pp-formula font-bold text-black mb-6 sm:mb-8 leading-124"
+            >
+              About
+            </h2>
+            <p
+              class="text-base sm:text-lg lg:text-xl font-pp-formula text-black leading-[1.5] mb-8 sm:mb-12"
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
+              interdum condimentum elit, ac semper lorem vestibulum et. Integer
+              luctus vel metus non mollis. Ut in arcu at odio tempus
+              ullamcorper. Donec dapibus tortor ac lacus fringilla, eget mattis
+              sem accumsan.
+              <br /><br />
+              Sed malesuada iaculis lacus sed vestibulum. Ut vehicula mauris
+              magna, ac faucibus turpis pellentesque sed. Pellentesque pharetra,
+              mauris ut fermentum interdum, quam elit convallis.
+            </p>
+            <button
+              class="border-3 border-black bg-white text-black px-6 sm:px-8 py-3 sm:py-4 text-lg sm:text-xl font-poppins font-bold uppercase tracking-wide hover:bg-black hover:text-white transition-all duration-300"
+            >
+              LET'S TALK
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Works Section -->
+    <section class="bg-cream py-12 sm:py-20 lg:py-32" id="works">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-16">
+        <div class="text-center mb-12 sm:mb-16">
+          <h2
+            class="text-3xl sm:text-4xl lg:text-5xl font-pp-formula font-bold text-black mb-6 sm:mb-8 leading-072 tracking-wide"
+          >
+            Works
+          </h2>
+          <p
+            class="text-base sm:text-lg lg:text-xl font-pp-formula text-black leading-[1.5] max-w-4xl mx-auto"
+          >
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
+            interdum condimentum elit, ac semper lorem vestibulum et. Integer
+            luctus vel metus non mollis. Ut in arcu at odio tempus ullamcorper.
+          </p>
+        </div>
+
+        <!-- Services Grid -->
+        <div
+          class="grid grid-cols-1 lg:grid-cols-2  lg: mb-12 sm:mb-16"
+        >
+          <!-- Service Card 1 -->
+          <div class="bg-black border border-black p-6 sm:p-8">
+            <h3
+              class="text-xl sm:text-2xl lg:text-3xl font-pp-formula font-bold text-white mb-3 sm:mb-4 leading-105 tracking-wide uppercase"
+            >
+              TATTOO
+            </h3>
+            <p
+              class="text-lg sm:text-xl font-poppins text-white leading-[1.5] tracking-wide"
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
+              interdum condimentum elit, ac semper lorem vestibulum et. Integer
+              luctus vel metus non mollis. Ut in arcu at odio tempus
+              ullamcorper. Donec dapibus tortor ac lacus.
+            </p>
+          </div>
+
+          <!-- Service Card 2 -->
+          <div class="bg-black border border-black p-6 sm:p-8">
+            <h3
+              class="text-xl sm:text-2xl lg:text-3xl font-pp-formula font-bold text-white mb-3 sm:mb-4 leading-105 tracking-wide uppercase"
+            >
+              PIERCING
+            </h3>
+            <p
+              class="text-lg sm:text-xl font-poppins text-white leading-[1.5] tracking-wide"
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
+              interdum condimentum elit, ac semper lorem vestibulum et. Integer
+              luctus vel metus non mollis. Ut in arcu at odio tempus
+              ullamcorper. Donec dapibus tortor ac lacus.
+            </p>
+          </div>
+
+          <!-- Service Card 3 -->
+          <div class="bg-black border border-black p-6 sm:p-8">
+            <h3
+              class="text-xl sm:text-2xl lg:text-3xl font-pp-formula font-bold text-white mb-3 sm:mb-4 leading-105 tracking-wide uppercase"
+            >
+              BODY MODIFICATION
+            </h3>
+            <p
+              class="text-lg sm:text-xl font-poppins text-white leading-[1.5] tracking-wide"
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
+              interdum condimentum elit, ac semper lorem vestibulum et. Integer
+              luctus vel metus non mollis. Ut in arcu at odio tempus
+              ullamcorper. Donec dapibus tortor ac lacus.
+            </p>
+          </div>
+
+          <!-- Service Card 4 -->
+          <div class="bg-black border border-black p-6 sm:p-8">
+            <h3
+              class="text-xl sm:text-2xl lg:text-3xl font-pp-formula font-bold text-white mb-3 sm:mb-4 leading-105 tracking-wide uppercase"
+            >
+              LASER THERAPY
+            </h3>
+            <p
+              class="text-lg sm:text-xl font-poppins text-white leading-[1.5] tracking-wide"
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
+              interdum condimentum elit, ac semper lorem vestibulum et. Integer
+              luctus vel metus non mollis. Ut in arcu at odio tempus
+              ullamcorper. Donec dapibus tortor ac lacus.
+            </p>
+          </div>
+        </div>
+
+        <!-- Contact Button -->
+        <div class="text-center">
+          <button
+            class="border-3 border-black bg-cream text-black px-8 sm:px-12 py-3 sm:py-4 text-lg sm:text-xl font-poppins font-bold uppercase tracking-wide hover:bg-black hover:text-white transition-all duration-300"
+          >
+            CONTACT
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work Gallery Section -->
+    <section class="bg-white py-20 lg:py-32" id="work-gallery">
+      <div class="container mx-auto px-4 lg:px-16">
+        <div class="text-center mb-16">
+          <h2
+            class="text-4xl lg:text-5xl font-pp-formula font-bold text-black mb-8 leading-072 tracking-wide"
+          >
+            Work Gallery
+          </h2>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="relative">
+          <!-- Navigation Arrows -->
+          <button
+            class="absolute left-4 lg:left-29 top-1/2 transform -translate-y-1/2 z-10 w-14 h-14 rounded-full border-3 border-black bg-white flex items-center justify-center hover:bg-black hover:text-white transition-all duration-300"
+          >
+            <svg
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              class="rotate-180"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              ></path>
+            </svg>
+          </button>
+          <button
+            class="absolute right-4 lg:right-29 top-1/2 transform -translate-y-1/2 z-10 w-14 h-14 rounded-full border-3 border-black bg-white flex items-center justify-center hover:bg-black hover:text-white transition-all duration-300"
+          >
+            <svg
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              ></path>
+            </svg>
+          </button>
+
+          <!-- Gallery Images -->
+        <div class="overflow-hidden relative px-4 lg:px-20">
+            <div id="carousel-track" class="flex transition-transform duration-500 ease-in-out" style="transform: translateX(0);">
+                <!-- Add more images here -->
+                <div class="aspect-square w-1/2 lg:w-1/3 flex-shrink-0 px-2">
+                    <img
+                        src="https://api.builder.io/api/v1/image/assets/TEMP/948994fe71ae484f6967239d3eaf9d84aeb33929?width=1368"
+                        alt="Tattoo work 1"
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+                <div class="aspect-square w-1/2 lg:w-1/3 flex-shrink-0 px-2">
+                    <img
+                        src="https://api.builder.io/api/v1/image/assets/TEMP/6802b74004a2e8f908482aa39a2e6df630e2dfdc?width=1368"
+                        alt="Tattoo work 2"
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+                <div class="aspect-square w-1/2 lg:w-1/3 flex-shrink-0 px-2">
+                    <img
+                        src="https://api.builder.io/api/v1/image/assets/TEMP/c235740db513a9988feeeb2546ce2d3eccf596ab?width=374"
+                        alt="Tattoo work 3"
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+                <div class="aspect-square w-1/2 lg:w-1/3 flex-shrink-0 px-2">
+                    <img
+                        src="https://api.builder.io/api/v1/image/assets/TEMP/c235740db513a9988feeeb2546ce2d3eccf596ab?width=374"
+                        alt="Tattoo work 4"
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+                <div class="aspect-square w-1/2 lg:w-1/3 flex-shrink-0 px-2">
+                    <img
+                        src="https://api.builder.io/api/v1/image/assets/TEMP/c235740db513a9988feeeb2546ce2d3eccf596ab?width=374"
+                        alt="Tattoo work 5"
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+                <div class="aspect-square w-1/2 lg:w-1/3 flex-shrink-0 px-2">
+                    <img
+                        src="https://api.builder.io/api/v1/image/assets/TEMP/c235740db513a9988feeeb2546ce2d3eccf596ab?width=374"
+                        alt="Tattoo work 5"
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+                <!-- Add more images as needed -->
+            </div>
+        </div>
+        <script>
+            // Carousel logic
+            const track = document.getElementById('carousel-track');
+            const images = track.children.length;
+            let current = 0;
+
+            // Show 2.5 images at a time
+            function updateCarousel() {
+                // For desktop (lg), each image is 1/3 width, so 2.5 images = 2.5 * 100/3 = ~83.33vw
+                // For mobile, each image is 1/2 width, so 2.5 images = 2.5 * 50vw = 125vw
+                // We'll use 2.5 * image width as the visible area, so move by 1 image per click
+                const isLg = window.innerWidth >= 1024;
+                const imageWidth = track.children[0].offsetWidth;
+                const visibleImages = 2.5;
+                // Only allow scrolling until the last fully visible image is at the right edge
+                const maxIndex = Math.max(0, Math.floor(images - visibleImages));
+                if (current < 0) current = 0;
+                if (current > maxIndex) current = maxIndex;
+                track.style.transform = `translateX(-${current * imageWidth}px)`;
+            }
+
+            // Arrow buttons
+            const prevBtn = document.querySelector('.gallery-section button:first-of-type');
+            const nextBtn = document.querySelector('.gallery-section button:last-of-type');
+
+            // If you want to use the existing buttons, add a class to the section:
+            // <section class="bg-white py-20 lg:py-32 gallery-section">
+
+            // Fallback if not using a class:
+            const gallerySection = track.closest('section');
+            const buttons = gallerySection.querySelectorAll('button');
+            const leftBtn = buttons[0];
+            const rightBtn = buttons[1];
+
+            leftBtn.addEventListener('click', () => {
+                if (current > 0) {
+                    current--;
+                    updateCarouselAndArrows();
+                }
+            });
+
+            rightBtn.addEventListener('click', () => {
+                const isLg = window.innerWidth >= 1024;
+                const visibleImages = 2.5;
+                const maxIndex = Math.max(0, Math.floor(images - visibleImages));
+                if (current < maxIndex) {
+                    current++;
+                    updateCarouselAndArrows();
+                }
+            });
+
+            function updateArrowState() {
+                const isLg = window.innerWidth >= 1024;
+                const visibleImages = 2.5;
+                const maxIndex = Math.max(0, Math.floor(images - visibleImages));
+                leftBtn.disabled = current <= 0;
+                rightBtn.disabled = current >= maxIndex;
+                leftBtn.classList.toggle('opacity-50', leftBtn.disabled);
+                rightBtn.classList.toggle('opacity-50', rightBtn.disabled);
+                leftBtn.classList.toggle('cursor-not-allowed', leftBtn.disabled);
+                rightBtn.classList.toggle('cursor-not-allowed', rightBtn.disabled);
+            }
+
+            function updateCarouselAndArrows() {
+                updateCarousel();
+                updateArrowState();
+            }
+
+            window.addEventListener('resize', updateCarouselAndArrows);
+            updateCarouselAndArrows();
+        </script>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section class="bg-black py-20 lg:py-32" id="faqs">
+      <div class="container mx-auto px-4 lg:px-16">
+        <div class="text-center mb-16">
+          <h2
+            class="text-4xl lg:text-5xl font-pp-formula font-bold text-white mb-8 leading-072 tracking-wide"
+          >
+            FAQs
+          </h2>
+        </div>
+
+        <div class="max-w-5xl mx-auto">
+          <!-- FAQ Item 1 -->
+          <div class="faq-item border-3 border-white mb-2 ">
+            <button
+              class="w-full flex items-center justify-between p-6 text-left transition-all duration-300 text-white faq-toggle"
+            >
+              <span
+                class="text-xl font-poppins font-bold leading-[1.5] tracking-wide"
+              >
+                How do I get a quote for a tattoo?
+              </span>
+              <svg
+                width="24"
+                height="24"
+                fill="none"
+                stroke="#000000"
+                viewBox="0 0 24 24"
+                class="chevron text-black"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+            <div class="faq-content bg-off-white border-t-3 border-white">
+              <div class="p-6">
+                <p
+                  class="text-xl font-poppins text-black leading-[1.5] tracking-wide"
+                >
+                  The best way is to fill out the tattoo request form on the
+                  website. Include your idea, size, placement, and any
+                  references you have — and I'll get back to you with a quote or
+                  follow-up questions.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="faq-item border-3 border-white mb-2 ">
+            <button
+              class="w-full flex items-center justify-between p-6 text-left transition-all duration-300 text-white faq-toggle"
+            >
+              <span
+                class="text-xl font-poppins font-bold leading-[1.5] tracking-wide"
+              >
+                How do I get a quote for a tattoo?
+              </span>
+              <svg
+                width="24"
+                height="24"
+                fill="none"
+                stroke="#000000"
+                viewBox="0 0 24 24"
+                class="chevron text-black"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+            <div class="faq-content bg-off-white border-t-3 border-white">
+              <div class="p-6">
+                <p
+                  class="text-xl font-poppins text-black leading-[1.5] tracking-wide"
+                >
+                  The best way is to fill out the tattoo request form on the
+                  website. Include your idea, size, placement, and any
+                  references you have — and I'll get back to you with a quote or
+                  follow-up questions.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="faq-item border-3 border-white mb-2 ">
+            <button
+              class="w-full flex items-center justify-between p-6 text-left transition-all duration-300 text-white faq-toggle"
+            >
+              <span
+                class="text-xl font-poppins font-bold leading-[1.5] tracking-wide"
+              >
+                How do I get a quote for a tattoo?
+              </span>
+              <svg
+                width="24"
+                height="24"
+                fill="none"
+                stroke="#000000"
+                viewBox="0 0 24 24"
+                class="chevron text-black"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+            <div class="faq-content bg-off-white border-t-3 border-white">
+              <div class="p-6">
+                <p
+                  class="text-xl font-poppins text-black leading-[1.5] tracking-wide"
+                >
+                  The best way is to fill out the tattoo request form on the
+                  website. Include your idea, size, placement, and any
+                  references you have — and I'll get back to you with a quote or
+                  follow-up questions.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="faq-item border-3 border-white mb-2 ">
+            <button
+              class="w-full flex items-center justify-between p-6 text-left transition-all duration-300 text-white faq-toggle"
+            >
+              <span
+                class="text-xl font-poppins font-bold leading-[1.5] tracking-wide"
+              >
+                How do I get a quote for a tattoo?
+              </span>
+              <svg
+                width="24"
+                height="24"
+                fill="none"
+                stroke="#000000"
+                viewBox="0 0 24 24"
+                class="chevron text-black"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+            <div class="faq-content bg-off-white border-t-3 border-white">
+              <div class="p-6">
+                <p
+                  class="text-xl font-poppins text-black leading-[1.5] tracking-wide"
+                >
+                  The best way is to fill out the tattoo request form on the
+                  website. Include your idea, size, placement, and any
+                  references you have — and I'll get back to you with a quote or
+                  follow-up questions.
+                </p>
+              </div>
+            </div>
+          </div>
+         
+          
+             </section>
+
+    <!-- Bottom CTA Section -->
+    <section
+      class="relative min-h-[600px] lg:min-h-[800px] flex items-center justify-start overflow-hidden"
+    >
+      <!-- Background Image -->
+      <div
+        class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style="
+          background-image: url('https://api.builder.io/api/v1/image/assets/TEMP/993dfad28e8619fdced4f2a3a3bb5f14878cd43e?width=5044');
+        "
+      >
+        <div class="absolute inset-0 bg-black/40"></div>
+      </div>
+
+      <!-- Content -->
+      <div class="relative z-10 px-4 lg:px-16 max-w-2xl">
+        <h2
+          class="text-4xl lg:text-5xl font-pp-formula font-bold text-white mb-6 leading-[1.5] tracking-wide uppercase"
+        >
+          Clean lines,<br />true meaning
+        </h2>
+        <p
+          class="text-xl font-pp-formula text-white leading-[1.5] tracking-wide mb-12"
+        >
+          Where ritual meets art — and every line tells a story. Tattooing and
+          piercing with presence, precision, and intention.
+        </p>
+        <button
+          class="border-3 border-white bg-black text-white px-12 py-4 text-xl font-poppins font-bold uppercase tracking-wide hover:bg-white hover:text-black transition-all duration-300"
+        >
+          BOOK NOW
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-16 lg:py-20">
+      <div class="container mx-auto px-4 lg:px-16">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-20">
+          <!-- Logo and Brand -->
+          <div class="text-center lg:text-left">
+            <!-- Logo SVG -->
+            <div class="mb-8">
+              <svg
+                width="351"
+                height="199"
+                viewBox="0 0 351 199"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-32 mx-auto lg:mx-0"
+              >
+                <g clipPath="url(#clip0_1_78)">
+                  <path
+                    d="M175.5 127.775C140.126 127.775 111.352 99.1181 111.352 63.8874C111.352 28.6567 140.126 0 175.5 0C210.874 0 239.648 28.6567 239.648 63.8874C239.648 99.1181 210.874 127.775 175.5 127.775ZM175.5 4.62952C142.682 4.62952 116.001 31.203 116.001 63.8874C116.001 96.5718 142.682 123.145 175.5 123.145C208.318 123.145 234.999 96.5718 234.999 63.8874C234.999 31.203 208.318 4.62952 175.5 4.62952Z"
+                    fill="#867E00"
+                  />
+                  <path
+                    d="M175.5 92.7293C188.131 92.7293 198.37 82.5316 198.37 69.9521C198.37 57.3725 188.131 47.1748 175.5 47.1748C162.869 47.1748 152.63 57.3725 152.63 69.9521C152.63 82.5316 162.869 92.7293 175.5 92.7293Z"
+                    fill="#867E00"
+                  />
+                  <path
+                    d="M229.05 96.9883H121.974L119.952 93.5162L173.478 1.15723H177.499L231.048 93.5162L229.026 96.9883H229.05ZM125.972 92.3588H225.006L175.5 6.94413L125.972 92.3588Z"
+                    fill="#867E00"
+                  />
+                  <path
+                    d="M200.323 96.9883H150.678L148.354 94.6736V45.2303L150.678 42.9155H200.323L202.647 45.2303V94.6736L200.323 96.9883ZM153.002 92.3588H197.998V47.545H153.002V92.3588Z"
+                    fill="#867E00"
+                  />
+                  <path
+                    d="M13.829 158.862H0V154.372H32.8176V158.862H18.9887V198.491H13.8522V158.862H13.829Z"
+                    fill="#867E00"
+                  />
+                  <path
+                    d="M65.8444 178.653H43.6948V198.467H38.5583V154.348H43.6948V174.162H65.8444V154.348H70.9344V198.467H65.8444V178.653Z"
+                    fill="#867E00"
+                  />
+                  <path
+                    d="M78.2324 193.885H87.413V158.955H78.2324V154.372H101.73V158.955H92.5495V193.885H101.73V198.468H78.2324V193.885Z"
+                    fill="#867E00"
+                  />
+                  <path
+                    d="M119.742 154.372H126.343L141.032 198.491H135.617L132.781 189.625H113.374L110.539 198.491H105.123L119.766 154.372H119.742ZM131.317 185.135L123.275 160.043L122.996 159.348L122.787 159.996L114.745 185.158H131.317V185.135Z"
+                    fill="#867E00"
+                  />
+                  <path
+                    d="M143.798 180.111V172.75C143.798 162.079 149.864 153.839 162.136 153.839C173.013 153.839 179.288 160.575 179.823 169.209L179.869 171.338H174.5L174.454 168.769C174.036 162.149 169.364 158.353 162.182 158.353C153.164 158.353 149.051 164.07 149.051 172.288V180.412C149.051 188.908 153.188 194.463 161.764 194.463C169.271 194.463 174.105 190.412 174.477 182.866V180.25H159.184V176.037H179.893V198.467H176.453L175.918 191.153C173.338 195.736 168.62 199 161.438 199C149.91 199 143.798 190.782 143.798 180.088V180.111Z"
+                    fill="#867E00"
+                  />
+                  <path
+                    d="M186.215 180.042V172.728C186.215 162.149 192.443 153.816 204.599 153.816C216.755 153.816 222.983 162.149 222.983 172.728V180.042C222.983 190.667 216.755 199 204.599 199C192.443 199 186.215 190.667 186.215 180.042ZM204.622 194.463C213.361 194.463 217.707 188.792 217.707 180.413V172.357C217.707 164.14 213.361 158.376 204.622 158.376C195.883 158.376 191.537 164.14 191.537 172.311V180.436C191.537 188.815 195.883 194.486 204.622 194.486V194.463Z"
+                    fill="#867E00"
+                  />
+                  <path
+                    d="M226.702 195.482C226.702 193.283 228.306 191.848 230.304 191.848C232.303 191.848 233.907 193.283 233.907 195.482C233.907 197.681 232.303 199 230.304 199C228.306 199 226.702 197.611 226.702 195.482Z"
+                    fill="#867E00"
+                  />
+                  <path
+                    d="M255.173 154.372H261.774L276.463 198.491H271.048L268.212 189.625H248.805L245.97 198.491H240.554L255.197 154.372H255.173ZM266.771 185.135L258.729 160.043L258.45 159.348L258.241 159.996L250.2 185.158H266.771V185.135Z"
+                    fill="#867E00"
+                  />
+                  <path
+                    d="M309.234 194.533V187.542C309.234 181.246 304.795 180.112 300.379 180.112H287.131V198.491H281.995V154.372H300.495C310.048 154.372 314.533 158.006 314.533 166.709V167.033C314.533 173.005 312.232 176.478 307.514 177.82C312.07 179.047 314.44 182.519 314.44 187.542V194.533C314.44 195.968 314.487 197.727 315.091 198.491H309.885C309.234 197.796 309.234 196.037 309.234 194.533ZM300.425 175.737C305.632 175.737 309.211 174.394 309.211 167.681V166.455C309.211 160.158 306.004 158.77 299.937 158.77H287.131V175.76H300.425V175.737Z"
+                    fill="#867E00"
+                  />
+                  <path
+                    d="M332.011 158.862H318.182V154.372H351V158.862H337.171V198.491H332.035V158.862H332.011Z"
+                    fill="#867E00"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Navigation Links -->
+          <div class="text-center lg:text-left">
+            <nav class="space-y-4">
+              <a
+                href="#hero"
+                class="block text-lg font-pp-formula text-black uppercase tracking-wide leading-072 hover:text-gold transition-colors"
+                >HOME</a
+              >
+              <a
+                href="#works"
+                class="block text-lg font-pp-formula text-black uppercase tracking-wide leading-072 hover:text-gold transition-colors"
+                >WORK</a
+              >
+              <a
+                href="#about"
+                class="block text-lg font-pp-formula text-black uppercase tracking-wide leading-072 hover:text-gold transition-colors"
+                >ABOUT</a
+              >
+              <a
+                href="#faqs"
+                class="block text-lg font-pp-formula text-black uppercase tracking-wide leading-072 hover:text-gold transition-colors"
+                >FAQS</a
+              >
+              <a
+                href="#"
+                class="block text-lg font-pp-formula text-black uppercase tracking-wide leading-072 hover:text-gold transition-colors"
+                >CONTACT</a
+              >
+            </nav>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="text-center lg:text-left">
+            <p
+              class="text-lg font-pp-formula text-black leading-155 tracking-wide"
+            >
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
+              interdum condimentum elit, ac semper lorem vestibulum et. Integer
+              luctus vel metus non mollis. Ut in arcu at odio tempus
+              ullamcorper. Donec dapibus tortor ac lacus fringilla, eget mattis
+              sem accumsan. Sed malesuada iaculis lacus sed vestibulum.
+            </p>
+
+            <!-- Social Icons -->
+            <div class="flex justify-center lg:justify-start space-x-4 mt-8">
+              <svg
+                width="32"
+                height="32"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                class="text-black hover:text-gold transition-colors cursor-pointer"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                ></path>
+              </svg>
+              <svg
+                width="32"
+                height="32"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                class="text-black hover:text-gold transition-colors cursor-pointer"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path
+                  d="m16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
+                ></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+              <svg
+                width="32"
+                height="32"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                class="text-black hover:text-gold transition-colors cursor-pointer"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"
+                ></path>
+                <circle cx="4" cy="4" r="2"></circle>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Simple JavaScript for FAQ functionality -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const faqToggles = document.querySelectorAll(".faq-toggle");
+
+        faqToggles.forEach(function (toggle) {
+          toggle.addEventListener("click", function () {
+            const faqItem = this.closest(".faq-item");
+            const allFaqItems = document.querySelectorAll(".faq-item");
+
+            // Close all other FAQ items
+            allFaqItems.forEach(function (item) {
+              if (item !== faqItem) {
+                item.classList.remove("active");
+                const button = item.querySelector(".faq-toggle");
+                button.classList.remove("bg-off-white", "text-black");
+                button.classList.add("bg-black", "text-white");
+              }
+            });
+
+            // Toggle current FAQ item
+            faqItem.classList.toggle("active");
+
+            if (faqItem.classList.contains("active")) {
+              this.classList.remove("bg-black", "text-white");
+              this.classList.add("bg-off-white", "text-black");
+            } else {
+              this.classList.remove("bg-off-white", "text-black");
+              this.classList.add("bg-black", "text-white");
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
